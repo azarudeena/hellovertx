@@ -11,7 +11,7 @@ class MainVerticle : AbstractVerticle() {
       .requestHandler { req ->
         req.response()
           .putHeader("content-type", "text/plain")
-          .end("Hello from Vert.x!")
+          .end("Hello from Azar")
       }
       .listen(8888) { http ->
         if (http.succeeded()) {
