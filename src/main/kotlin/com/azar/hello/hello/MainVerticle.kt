@@ -72,10 +72,10 @@ class MainVerticle : AbstractVerticle() {
 
   }
 
-  @UseExperimental(ImplicitReflectionSerializer::class)
+  //@UseExperimental(ImplicitReflectionSerializer::class)
   val handlePutPerson = Handler<RoutingContext> { req ->
       try {
-      val person = Json.parse<Person>(req.bodyAsString)
+      val person = Json.parse<Person>(Person.serializer(),req.bodyAsString)
 
       val dupcheck = personlist.map {it}.distinct().filter { it.id == person.id}
 
