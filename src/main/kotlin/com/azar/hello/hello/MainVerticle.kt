@@ -41,8 +41,9 @@ class MainVerticle : AbstractVerticle() {
     get("/person").handler(handlerPerson)
     get("/person/:id").handler(handlerPersonid)
     route().handler(BodyHandler.create()).path("/person")
+    route().path("/person").handler(BodyHandler.create())
     post("/person").handler(handlePutPerson)
-      // route().failureHandler(failurehandle).path("/error")
+    route().failureHandler(this::handleFailure)
 
   }
 
@@ -56,7 +57,6 @@ class MainVerticle : AbstractVerticle() {
 
   val handlerPersonid = Handler<RoutingContext> { req ->
     val id = req.request().getParam("id")
-    println("called person id    "+id)
     val personWithId = personlist.map{it}
       .distinct()
       .filter { it.id == null || it.id.equals(id, true)}
@@ -68,9 +68,6 @@ class MainVerticle : AbstractVerticle() {
 
   }
 
-  val failurehandle = Handler<RoutingContext> { req ->
-
-  }
 
   //@UseExperimental(ImplicitReflectionSerializer::class)
   val handlePutPerson = Handler<RoutingContext> { req ->
